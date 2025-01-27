@@ -49,6 +49,7 @@ private:
     void checkCollision();
     void generateFood();
     bool checkSelfCollision();
+    bool checkWallCollision();
     void drawGame(QPainter *painter);
 };
 #endif // MAINWINDOW_H

@@ -76,12 +76,6 @@ void MainWindow::moveSnake()
     QPoint head = snake.first();
     QPoint newHead = head + snakeDir;
 
-    // Ограничение движений
-    if(newHead.x() < 0) newHead.setX(width-1);
-    if(newHead.x() >= width) newHead.setX(0);
-    if(newHead.y() < 0) newHead.setY(height - 1);
-    if(newHead.y() >= height) newHead.setY(0);
-
 
     snake.insert(0, newHead); // Добавляем голову в начало змеи
 
@@ -95,7 +89,7 @@ void MainWindow::moveSnake()
 
 void MainWindow::checkCollision()
 {
-    if(checkSelfCollision()){
+    if(checkSelfCollision() || checkWallCollision()){
         gameOver = true;
     }
 }
@@ -109,7 +103,6 @@ void MainWindow::generateFood()
     } while (std::find(snake.begin(), snake.end(), foodPos) != snake.end()); // Убеждаемся, что еда не в змее
 }
 
-
 bool MainWindow::checkSelfCollision() {
     QPoint head = snake.first();
     for(int i = 1; i < snake.size(); i++){
@@ -118,6 +111,16 @@ bool MainWindow::checkSelfCollision() {
         }
     }
     return false;
+}
+
+bool MainWindow::checkWallCollision() {
+    QPoint head = snake.first();
+
+    if (head.x() < 0 || head.x() >= width || head.y() < 0 || head.y() >= height) {
+        return true; // Столкновение со стеной
+    }
+    return false;
+
 }
 
 
